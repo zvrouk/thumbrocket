@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Upload, Wand2, Download, Loader2, Lightbulb } from "lucide-react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { supabase } from '@/lib/supabaseClient'; // Use your correct import path
 import { User } from '@supabase/supabase-js';
 
@@ -29,12 +30,14 @@ const PROMPT_EXAMPLES = [
 ]
 
 export default function ThumbnailGenerator() {
-  // --- NEW AUTH STATE ---
-  const [user, setUser] = useState<User | null>(null);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [authLoading, setAuthLoading] = useState(false); // Renamed to avoid conflict
-  const [authView, setAuthView] = useState('sign_in'); // 'sign_in' or 'sign_up'
+  const router = useRouter()
+  const [user, setUser] = useState<User | null>(null)
+  const [checkingSession, setCheckingSession] = useState(true)
+  // Legacy auth UI state (kept to avoid TS errors; login moved to /login)
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [authLoading, setAuthLoading] = useState(false)
+  const [authView, setAuthView] = useState<"sign_in" | "sign_up">("sign_in")
 
   // --- YOUR EXISTING STATE (stays the same) ---
   const [formData, setFormData] = useState({
@@ -47,58 +50,53 @@ export default function ThumbnailGenerator() {
   const [thumbnails, setThumbnails] = useState<GeneratedThumbnail[]>([])
   const [isGenerating, setIsGenerating] = useState(false) // This is your existing loading state
 
-  // --- ADD THIS USEEFFECT HOOK ---
+  // Enforce auth: redirect to /login when not authenticated
   useEffect(() => {
-    // Get the current session on page load
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
+      setUser(session?.user ?? null)
+      setCheckingSession(false)
+      if (!session?.user) router.replace("/login")
+    })
 
-    // Listen for changes to auth state (login, logout, etc.)
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
+      setUser(session?.user ?? null)
+      if (!session?.user) router.replace("/login")
+    })
 
-    // Cleanup function to remove the listener when the component unmounts
-    return () => subscription.unsubscribe();
-  }, []);
-  // --- ADD AUTH HANDLER FUNCTIONS HERE ---
+    return () => subscription.unsubscribe()
+  }, [router]);
+
+  // Legacy handlers (not used after redirect)
   const handleEmailSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setAuthLoading(true);
-    const { error } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
+    e.preventDefault()
+    setAuthLoading(true)
+    const { error } = await supabase.auth.signUp({ email, password })
     if (error) {
-      alert(error.message);
+      alert(error.message)
     } else {
-      alert('Check your email for the confirmation link!');
+      alert("Check your email for the confirmation link!")
     }
-    setAuthLoading(false);
-  };
+    setAuthLoading(false)
+  }
 
   const handleEmailSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setAuthLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
+    e.preventDefault()
+    setAuthLoading(true)
+    const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) {
-      alert(error.message);
+      alert(error.message)
     }
-    setAuthLoading(false);
-  };
+    setAuthLoading(false)
+  }
 
   const handleSignOut = async () => {
-    const { error } = await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut()
     if (error) {
-      alert(error.message);
+      alert(error.message)
     }
-  };
+  }
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, type: "reference" | "person") => {
     const file = e.target.files?.[0]
