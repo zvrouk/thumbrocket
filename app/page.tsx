@@ -33,6 +33,7 @@ export default function ThumbnailGenerator() {
   const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
   const [checkingSession, setCheckingSession] = useState(true)
+  const [checkingSubscription, setCheckingSubscription] = useState(false)
   // Legacy auth UI state (kept to avoid TS errors; login moved to /login)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -67,6 +68,42 @@ export default function ThumbnailGenerator() {
 
     return () => subscription.unsubscribe()
   }, [router]);
+
+  // After login, ensure subscription is active
+  useEffect(() => {
+    const checkSub = async () => {
+      if (!user) return
+      setCheckingSubscription(true)
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('subscription_status,current_period_end')
+          .eq('id', user.id)
+          .maybeSingle()
+        if (error) {
+          console.error('Subscription check error', error)
+          return router.replace('/pricing')
+        }
+        const status = data?.subscription_status
+        const end = data?.current_period_end ? new Date(data.current_period_end) : null
+        const active = status === 'active' && end && end > new Date()
+        if (!active) {
+          return router.replace('/pricing')
+        }
+      } finally {
+        setCheckingSubscription(false)
+      }
+    }
+    if (user) checkSub()
+  }, [user, router])
+
+  if (checkingSession || checkingSubscription) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-4 flex items-center justify-center">
+        <p className="text-gray-600">Loading...</p>
+      </div>
+    )
+  }
 
   // Legacy handlers (not used after redirect)
   const handleEmailSignUp = async (e: React.FormEvent) => {
