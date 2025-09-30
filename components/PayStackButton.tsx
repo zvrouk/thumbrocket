@@ -26,7 +26,6 @@ export function PayStackButton({ plan, label }: { plan: PlanType; label: string 
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data?.error || "Failed to start payment")
-      // Redirect to Paystack authorization URL
       window.location.href = data.authorization_url
     } catch (e: any) {
       alert(e?.message || "Payment failed to start")
@@ -36,8 +35,9 @@ export function PayStackButton({ plan, label }: { plan: PlanType; label: string 
   }
 
   return (
-    <Button onClick={startPayment} disabled={loading} className="w-full">
-      {loading ? "Redirecting..." : label}
+    <Button onClick={startPayment} disabled={loading} className="w-full flex flex-col items-center">
+      <span>{loading ? "Redirecting..." : label}</span>
+      <span className="text-xs text-muted-foreground">(Charged in Kenyan Shillings)</span>
     </Button>
   )
 }

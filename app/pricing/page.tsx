@@ -6,11 +6,47 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { PayStackButton } from "@/components/PayStackButton"
 import { supabase } from "@/lib/supabaseClient"
 
+const plans: Array<{
+  id: "weekly" | "yearly"
+  name: string
+  price: string
+  frequency: string
+  description: string
+  originalPrice?: string
+  features: string[]
+}> = [
+  {
+    id: "weekly",
+    name: "Weekly",
+    price: "$4",
+    frequency: "/week",
+    description: "Perfect for trying out the tool",
+    originalPrice: "KSh 600",
+    features: [
+      "10 AI thumbnails per week",
+      "All styles included",
+      "Cancel anytime",
+    ],
+  },
+  {
+    id: "yearly",
+    name: "Yearly",
+    price: "$67",
+    frequency: "/year",
+    description: "Best value - save 20%",
+    originalPrice: "KSh 10,050",
+    features: [
+      "Unlimited thumbnails",
+      "Priority generation",
+      "All future features",
+    ],
+  },
+]
+
 export default function PricingPage() {
   const router = useRouter()
 
   useEffect(() => {
-    // Require login before purchasing
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session?.user) router.replace("/login")
     })
@@ -25,36 +61,31 @@ export default function PricingPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Weekly</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="text-3xl font-bold">$4<span className="text-base font-normal">/week</span></div>
-              <ul className="text-sm text-gray-600 list-disc pl-5 space-y-1">
-                <li>Full access to generator</li>
-                <li>Great for quick projects</li>
-              </ul>
-              <PayStackButton plan="weekly" label="Start Weekly Plan" />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Yearly</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="text-3xl font-bold">$67<span className="text-base font-normal">/year</span></div>
-              <ul className="text-sm text-gray-600 list-disc pl-5 space-y-1">
-                <li>Best value</li>
-                <li>Unlimited access</li>
-              </ul>
-              <PayStackButton plan="yearly" label="Start Yearly Plan" />
-            </CardContent>
-          </Card>
+          {plans.map((plan) => (
+            <Card key={plan.id}>
+              <CardHeader>
+                <CardTitle>{plan.name}</CardTitle>
+                <p className="text-sm text-gray-500">{plan.description}</p>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="text-3xl font-bold">
+                  {plan.price}
+                  <span className="text-base font-normal">{plan.frequency}</span>
+                </div>
+                {plan.originalPrice && (
+                  <div className="text-sm text-gray-500">Charged as {plan.originalPrice}</div>
+                )}
+                <ul className="text-sm text-gray-600 list-disc pl-5 space-y-1">
+                  {plan.features.map((feature) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
+                </ul>
+                <PayStackButton plan={plan.id} label={`Subscribe - ${plan.price}`} />
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </div>
   )
 }
-

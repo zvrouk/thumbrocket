@@ -1,14 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY
-const PAYSTACK_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY
-const CURRENCY = process.env.PAYSTACK_CURRENCY || 'USD'
+const PAYSTACK_CURRENCY = process.env.PAYSTACK_CURRENCY || 'KES'
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
-// Basic plan mapping
-const PLAN_AMOUNT: Record<string, number> = {
-  weekly: 400,  // cents for USD
-  yearly: 6700, // cents for USD
+const USD_AMOUNTS: Record<'weekly' | 'yearly', number> = {
+  weekly: 4,
+  yearly: 67,
+}
+
+const USD_TO_KES_RATE = 150
+
+const getAmountInKES = (usdAmount: number) => {
+  return Math.round(usdAmount * USD_TO_KES_RATE * 100)
 }
 
 export async function POST(req: NextRequest) {
@@ -23,8 +27,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing plan, email or userId' }, { status: 400 })
     }
 
-    const amount = PLAN_AMOUNT[plan]
-    if (!amount) return NextResponse.json({ error: 'Invalid plan' }, { status: 400 })
+    const usdAmount = USD_AMOUNTS[plan]
+    if (!usdAmount) {
+      return NextResponse.json({ error: 'Invalid plan' }, { status: 400 })
+    }
+
+    const amount = getAmountInKES(usdAmount)
 
     const initRes = await fetch('https://api.paystack.co/transaction/initialize', {
       method: 'POST',
@@ -35,11 +43,12 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         email,
         amount,
-        currency: CURRENCY,
+        currency: PAYSTACK_CURRENCY,
         callback_url: `${SITE_URL}/pricing/success`,
         metadata: {
           user_id: userId,
           plan,
+          usdAmount,
         },
       })
     })
@@ -59,4 +68,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: e?.message || 'Failed to start payment' }, { status: 500 })
   }
 }
-
