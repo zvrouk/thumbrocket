@@ -1,12 +1,18 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string
-const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY as string
+let cachedClient: SupabaseClient | null = null
 
-if (!supabaseUrl || !serviceKey) {
-  // Intentionally not throwing at import time to avoid crashing builds without envs
-  console.warn('Supabase admin client missing envs: NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY')
+export function getSupabaseAdmin(): SupabaseClient {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+  if (!supabaseUrl || !serviceKey) {
+    throw new Error('Supabase admin client missing envs: NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY')
+  }
+
+  if (!cachedClient) {
+    cachedClient = createClient(supabaseUrl, serviceKey)
+  }
+
+  return cachedClient
 }
-
-export const supabaseAdmin = createClient(supabaseUrl ?? '', serviceKey ?? '')
-

@@ -213,7 +213,7 @@ export default function PricingPage() {
             <span className="text-xs uppercase tracking-[0.28em] text-purple-100/70">Need more clarity?</span>
             <CardTitle className="text-2xl font-semibold text-white">Compare plans side by side</CardTitle>
             <p className="text-sm text-purple-100/80">
-              The experience stays identical across weekly and yearly subscriptions—you're choosing commitment, not capability.
+              The experience stays identical across weekly and yearly subscriptions-you're choosing commitment, not capability.
             </p>
           </CardHeader>
           <CardContent className="p-0">

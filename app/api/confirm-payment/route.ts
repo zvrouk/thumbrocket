@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
-import { supabaseAdmin } from '@/lib/supabaseAdmin'
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY
 
@@ -46,8 +46,10 @@ export async function POST(req: NextRequest) {
     if (plan === 'weekly') end.setDate(end.getDate() + 7)
     else end.setDate(end.getDate() + 365)
 
+    const supabase = getSupabaseAdmin()
+
     // Update profile
-    await supabaseAdmin.from('profiles').upsert({
+    await supabase.from('profiles').upsert({
       id: userId,
       subscription_status: 'active',
       subscription_plan: plan,
@@ -57,7 +59,10 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true })
   } catch (e: any) {
-    return NextResponse.json({ error: e?.message || 'Webhook error' }, { status: 500 })
+    const message = e?.message || 'Webhook error'
+    if (message.includes('Supabase admin client missing envs')) {
+      return NextResponse.json({ error: message }, { status: 500 })
+    }
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
-

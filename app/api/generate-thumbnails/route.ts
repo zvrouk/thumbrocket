@@ -9,13 +9,25 @@ interface ThumbnailRequest {
   personPhotoBase64: string | null
 }
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY!,
-})
+let cachedClient: OpenAI | null = null
+
+function getOpenAIClient(): OpenAI {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) {
+    throw new Error("The OPENAI_API_KEY environment variable is missing or empty.")
+  }
+  if (!cachedClient) {
+    cachedClient = new OpenAI({ apiKey })
+  }
+  return cachedClient
+}
 
 export async function POST(req: NextRequest) {
-  if (!process.env.OPENAI_API_KEY) {
-    return NextResponse.json({ error: "OPENAI_API_KEY is not configured on the server." }, { status: 500 })
+  let openai: OpenAI
+  try {
+    openai = getOpenAIClient()
+  } catch (error: any) {
+    return NextResponse.json({ error: error?.message || "OPENAI_API_KEY is not configured on the server." }, { status: 500 })
   }
 
   const body: ThumbnailRequest = await req.json()
@@ -39,7 +51,7 @@ export async function POST(req: NextRequest) {
       response = await createImage("1792x1024")
     } catch (err) {
       // Log & fall back to the official 1:1 size
-      console.error("OpenAI call failed, falling back to 1024×1024", err)
+      console.error("OpenAI call failed, falling back to 1024x1024", err)
       response = await createImage("1024x1024")
     }
 
@@ -52,7 +64,7 @@ export async function POST(req: NextRequest) {
       thumbnails: [{ id: "t1", url, prompt }],
     })
   } catch (err: any) {
-    // OpenAI returns structured errors — surface the message
+    // OpenAI returns structured errors - surface the message
     const message = err?.message ?? err?.response?.data?.error?.message ?? "Unknown server error"
 
     console.error("Thumbnail generation error:", err)

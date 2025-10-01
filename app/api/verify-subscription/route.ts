@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabaseAdmin'
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin'
 
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY
 
@@ -38,7 +38,9 @@ export async function GET(req: NextRequest) {
     if (plan === 'weekly') end.setDate(end.getDate() + 7)
     else end.setDate(end.getDate() + 365)
 
-    await supabaseAdmin.from('profiles').upsert({
+    const supabase = getSupabaseAdmin()
+
+    await supabase.from('profiles').upsert({
       id: userId,
       subscription_status: 'active',
       subscription_plan: plan,
@@ -48,7 +50,10 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ status: 'active', current_period_end: end.toISOString(), plan })
   } catch (e: any) {
-    return NextResponse.json({ error: e?.message || 'Verify error' }, { status: 500 })
+    const message = e?.message || 'Verify error'
+    if (message.includes('Supabase admin client missing envs')) {
+      return NextResponse.json({ error: message }, { status: 500 })
+    }
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
-
