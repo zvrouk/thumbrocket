@@ -39,7 +39,7 @@ const plans: Plan[] = [
     ksh: "Charged as KSh 10,050 yearly",
     tagline: "Lock in Thumbrocket for every launch this year and skip weekly renewals.",
     badge: "Best value",
-    highlight: "Save 20% vs weekly",
+    highlight: "Save 67.8% vs weekly",
   },
 ]
 
@@ -95,7 +95,7 @@ const comparisonRows: Array<{
     label: "Savings",
     description: "Compared to paying weekly for a full year.",
     weekly: "Baseline",
-    yearly: "~20% savings",
+    yearly: "~67.8% savings",
   },
 ]
 
