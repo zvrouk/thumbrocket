@@ -213,7 +213,7 @@ export default function ThumbnailGenerator() {
       const personPhotoBase64 = faceFile ? await fileToBase64(faceFile) : null
       const referenceImageBase64 = referenceFile ? await fileToBase64(referenceFile) : ""
 
-      const styleInstruction = selectedStyle ?  : ""
+      const styleInstruction = selectedStyle ? `Style: ${selectedStyle}.` : ""
       const faceInstruction = faceFile ? "Include the uploaded face photo when appropriate." : ""
       const referenceInstruction = referenceFile
         ? "Match the energy and layout of the uploaded reference image."
@@ -230,7 +230,7 @@ export default function ThumbnailGenerator() {
         .join(" ")
 
       const contextDetails = [
-        selectedStyle && ,
+        selectedStyle && `Preferred style: ${selectedStyle}.`,
         faceFile && "Use the provided face photo if it improves the design.",
         referenceFile && "Use the reference image as stylistic inspiration.",
       ]
