@@ -160,6 +160,7 @@ export default function LoginPage() {
                   ))}
                 </div>
               </div>
+            </div>
           </div>
 
           <Card className="relative overflow-hidden border border-white/15 bg-white/95 text-gray-900 shadow-2xl shadow-purple-900/40">
