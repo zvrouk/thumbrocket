@@ -119,11 +119,14 @@ export default function ThumbnailGenerator() {
 
   if (checkingSession || checkingSubscription) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-4 flex items-center justify-center">
-        <p className="text-gray-600">Loading...</p>
+      <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-purple-950 via-purple-900 to-purple-700 text-white">
+        <div className="pointer-events-none absolute -top-44 left-1/3 h-80 w-80 rounded-full bg-purple-500/40 blur-[150px]" />
+        <div className="pointer-events-none absolute bottom-[-6rem] right-[-4rem] h-[22rem] w-[22rem] rounded-full bg-purple-400/40 blur-[160px]" />
+        <p className="relative text-sm font-medium text-purple-100/80">Loading your studio...</p>
       </div>
     )
   }
+
   const handleEmailSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
     setAuthLoading(true)
@@ -197,6 +200,7 @@ export default function ThumbnailGenerator() {
       reader.onerror = (error) => reject(error)
     })
   }
+
   const runGeneration = async (isRegeneration = false) => {
     const trimmedPrompt = userPrompt.trim()
     if (!trimmedPrompt) {
@@ -291,87 +295,117 @@ export default function ThumbnailGenerator() {
       console.error("Error downloading thumbnail:", error)
     }
   }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 p-4">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 pb-16">
-        <header className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900">ThumbRocket Thumbnail Studio</h1>
-          <p className="mt-2 text-lg text-gray-600">
-            Describe it once, pick a style, and generate scroll-stopping YouTube thumbnails in seconds.
-          </p>
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-purple-950 via-purple-900 to-purple-700 text-white">
+      <div className="pointer-events-none absolute -top-40 left-1/4 h-[26rem] w-[26rem] rounded-full bg-purple-500/40 blur-[160px]" />
+      <div className="pointer-events-none absolute bottom-[-14rem] right-[-6rem] h-[32rem] w-[32rem] rounded-full bg-purple-400/30 blur-[180px]" />
+
+      <div className="relative mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-12 px-6 py-16 lg:px-12">
+        <header className="space-y-6 text-center lg:text-left">
+          <div className="inline-flex items-center gap-2 self-center rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-purple-100/80 backdrop-blur transition hover:bg-white/20 lg:self-start">
+            <span>Thumbrocket studio</span>
+            <span className="rounded-full bg-purple-200/30 px-2 py-0.5 text-[0.65rem] text-white">AI creative flow</span>
+          </div>
+          <div className="space-y-4">
+            <h1 className="text-4xl font-semibold leading-tight text-white sm:text-5xl">
+              Design impact thumbnails with a workspace that matches the rest of Thumbrocket.
+            </h1>
+            <p className="mx-auto max-w-3xl text-lg text-purple-100/85 lg:mx-0">
+              Feed the AI a single vision, tap a signature style, and generate scroll-stopping covers in seconds. The new layout mirrors the premium vibe from login and pricing so your creative flow feels seamless end-to-end.
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-3 text-sm text-purple-100/80 lg:justify-start">
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2">
+              <Wand2 className="h-4 w-4 text-purple-200" />
+              HD-ready outputs every run
+            </span>
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2">
+              <Upload className="h-4 w-4 text-purple-200" />
+              Drag-and-drop faces & references
+            </span>
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2">
+              <Download className="h-4 w-4 text-purple-200" />
+              Instant downloads & variations
+            </span>
+          </div>
         </header>
 
-        <div className="w-full max-w-md mx-auto">
+        <div className="w-full max-w-lg self-center lg:self-start">
           {!user ? (
-            <Card>
-              <CardContent className="pt-6">
-                <form onSubmit={authView === "sign_in" ? handleEmailSignIn : handleEmailSignUp}>
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="your.email@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="password">Password</Label>
-                      <Input
-                        id="password"
-                        type="password"
-                        placeholder="Your password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <Button type="submit" disabled={authLoading} className="w-full">
-                      {authLoading ? "Loading..." : authView === "sign_in" ? "Sign In" : "Sign Up"}
-                    </Button>
+            <Card className="border border-white/15 bg-white/10 text-white backdrop-blur">
+              <CardContent className="space-y-6 pt-6">
+                <form onSubmit={authView === "sign_in" ? handleEmailSignIn : handleEmailSignUp} className="space-y-5">
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-sm font-medium uppercase tracking-[0.2em] text-purple-100/80">
+                      Email
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="your.email@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      className="h-12 rounded-xl border border-white/20 bg-white/10 text-white placeholder:text-purple-200 focus:border-purple-300 focus:bg-white/15 focus:ring-4 focus:ring-purple-400/30"
+                    />
                   </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="password" className="text-sm font-medium uppercase tracking-[0.2em] text-purple-100/80">
+                      Password
+                    </Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="Your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      className="h-12 rounded-xl border border-white/20 bg-white/10 text-white placeholder:text-purple-200 focus:border-purple-300 focus:bg-white/15 focus:ring-4 focus:ring-purple-400/30"
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    disabled={authLoading}
+                    className="h-12 w-full rounded-xl bg-gradient-to-r from-purple-600 via-purple-500 to-purple-600 text-white shadow-lg shadow-purple-500/30 transition hover:shadow-xl hover:shadow-purple-500/40"
+                  >
+                    {authLoading ? "Loading..." : authView === "sign_in" ? "Sign In" : "Sign Up"}
+                  </Button>
                 </form>
-                <div className="relative my-6">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-300" />
+
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div className="w-full border-t border-white/15" />
                   </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="bg-white px-2 text-gray-500">Or continue with</span>
+                  <div className="relative flex justify-center text-xs uppercase tracking-[0.28em] text-purple-100/60">
+                    <span className="bg-transparent px-3">Or continue with</span>
                   </div>
                 </div>
+
                 <Button
                   onClick={() => supabase.auth.signInWithOAuth({ provider: "google" })}
                   variant="outline"
-                  className="flex w-full items-center justify-center gap-2"
+                  className="group h-12 w-full rounded-xl border border-white/20 bg-white/10 text-white transition hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/20"
                   type="button"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                    <path
-                      fill="#4285F4"
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                    />
-                    <path
-                      fill="#34A853"
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                    />
-                    <path
-                      fill="#FBBC05"
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                    />
-                    <path
-                      fill="#EA4335"
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                    />
-                  </svg>
-                  Sign in with Google
+                  <span className="flex items-center justify-center gap-2 text-sm font-semibold">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white text-black shadow ring-1 ring-black/5 transition group-hover:ring-purple-200">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                      </svg>
+                    </span>
+                    Google
+                  </span>
                 </Button>
-                <div className="mt-4 text-center">
+
+                <div className="text-center text-sm text-purple-100/70">
                   <button
                     onClick={() => setAuthView(authView === "sign_in" ? "sign_up" : "sign_in")}
-                    className="text-sm text-blue-600 hover:text-blue-800"
+                    className="font-semibold text-white transition hover:text-purple-200"
+                    type="button"
                   >
                     {authView === "sign_in" ? "Need an account? Sign Up" : "Already have an account? Sign In"}
                   </button>
@@ -379,27 +413,33 @@ export default function ThumbnailGenerator() {
               </CardContent>
             </Card>
           ) : (
-            <div className="rounded-lg bg-green-50 p-4 text-center">
-              <p className="text-green-800">
-                Logged in as: <strong>{user.email}</strong>
+            <div className="rounded-2xl border border-emerald-300/40 bg-emerald-400/10 p-6 text-center text-sm text-emerald-100 backdrop-blur">
+              <p>
+                Logged in as <span className="font-semibold text-white">{user.email}</span>
               </p>
-              <Button onClick={handleSignOut} variant="outline" size="sm" className="mt-2">
+              <Button
+                onClick={handleSignOut}
+                variant="outline"
+                size="sm"
+                className="mt-3 rounded-xl border-white/30 bg-white/10 text-white hover:bg-white/20"
+              >
                 Sign Out
               </Button>
             </div>
           )}
         </div>
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-          <Card className="h-full backdrop-blur">
+
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+          <Card className="border border-white/15 bg-white/10 text-white shadow-2xl shadow-purple-900/30 backdrop-blur">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Wand2 className="h-5 w-5" />
+              <CardTitle className="flex items-center gap-2 text-white">
+                <Wand2 className="h-5 w-5 text-purple-200" />
                 Build Your Thumbnail
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="thumbnailPrompt" className="text-sm font-semibold uppercase tracking-wide text-purple-700">
+                <Label htmlFor="thumbnailPrompt" className="text-xs font-semibold uppercase tracking-[0.28em] text-purple-100/75">
                   Main Instructions
                 </Label>
                 <Textarea
@@ -407,15 +447,15 @@ export default function ThumbnailGenerator() {
                   placeholder="Describe your thumbnail..."
                   value={userPrompt}
                   onChange={(event) => setUserPrompt(event.target.value)}
-                  className="min-h-[140px] resize-none text-base"
+                  className="min-h-[140px] resize-none rounded-xl border border-white/15 bg-white/10 text-base text-white placeholder:text-purple-200 focus:border-purple-300 focus:bg-white/15 focus:ring-4 focus:ring-purple-400/30"
                 />
-                <p className="text-sm text-gray-500">
-                  Tell the AI what the thumbnail should feel like, what text to include, and any must-have visuals.
+                <p className="text-sm text-purple-100/75">
+                  Describe the mood, hero text, subjects, and any motion or lighting cues you want spotlighted.
                 </p>
               </div>
 
               <div className="space-y-3">
-                <p className="text-sm font-semibold uppercase tracking-wide text-purple-700">Choose a style</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-purple-100/75">Choose a style</p>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   {STYLE_OPTIONS.map((style) => {
                     const isSelected = selectedStyle === style
@@ -423,13 +463,13 @@ export default function ThumbnailGenerator() {
                       <Button
                         key={style}
                         type="button"
-                        variant={isSelected ? "default" : "outline"}
+                        variant="outline"
                         onClick={() => setSelectedStyle(isSelected ? null : style)}
                         className={cn(
-                          "h-12 justify-center rounded-lg border text-sm font-medium transition-all",
+                          "h-12 justify-center rounded-xl border text-sm font-medium transition-all",
                           isSelected
-                            ? "border-transparent bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg"
-                            : "border-purple-100 bg-white/60 text-purple-700 hover:border-purple-300 hover:bg-purple-50"
+                            ? "border-transparent bg-gradient-to-r from-purple-500 via-purple-400 to-purple-600 text-white shadow-lg shadow-purple-900/40"
+                            : "border-white/15 bg-white/5 text-purple-100 hover:border-white/30 hover:bg-white/10"
                         )}
                       >
                         {style}
@@ -456,19 +496,19 @@ export default function ThumbnailGenerator() {
                   }}
                   onDrop={handleFaceDrop}
                   className={cn(
-                    "group cursor-pointer rounded-xl border-2 border-dashed border-purple-200 bg-white/70 p-6 text-center transition-colors",
-                    faceDragActive && "border-purple-500 bg-purple-50",
-                    facePreview && "border-solid border-purple-400"
+                    "group cursor-pointer rounded-2xl border-2 border-dashed border-white/15 bg-white/5 p-6 text-center transition-all",
+                    faceDragActive && "border-purple-300 bg-white/10",
+                    facePreview && "border-purple-400 bg-white/10"
                   )}
                 >
                   <div className="flex flex-col items-center gap-3">
-                    <Upload className="h-8 w-8 text-purple-400" />
+                    <Upload className="h-8 w-8 text-purple-200" />
                     <div>
-                      <p className="font-semibold text-gray-800">Add your face to the thumbnail</p>
-                      <p className="text-sm text-gray-500">Drag & drop or click to upload</p>
+                      <p className="font-semibold text-white">Add your face to the thumbnail</p>
+                      <p className="text-sm text-purple-100/75">Drag & drop or click to upload</p>
                     </div>
                     {facePreview && (
-                      <div className="w-full overflow-hidden rounded-lg border border-purple-200">
+                      <div className="w-full overflow-hidden rounded-xl border border-white/20">
                         <img src={facePreview} alt="Face preview" className="h-32 w-full object-cover" />
                       </div>
                     )}
@@ -501,19 +541,19 @@ export default function ThumbnailGenerator() {
                   }}
                   onDrop={handleReferenceDrop}
                   className={cn(
-                    "group cursor-pointer rounded-xl border-2 border-dashed border-blue-200 bg-white/70 p-6 text-center transition-colors",
-                    referenceDragActive && "border-blue-500 bg-blue-50",
-                    referencePreview && "border-solid border-blue-400"
+                    "group cursor-pointer rounded-2xl border-2 border-dashed border-white/15 bg-white/5 p-6 text-center transition-all",
+                    referenceDragActive && "border-blue-300 bg-white/10",
+                    referencePreview && "border-blue-400 bg-white/10"
                   )}
                 >
                   <div className="flex flex-col items-center gap-3">
-                    <Upload className="h-8 w-8 text-blue-400" />
+                    <Upload className="h-8 w-8 text-blue-200" />
                     <div>
-                      <p className="font-semibold text-gray-800">Upload a thumbnail to copy the style</p>
-                      <p className="text-sm text-gray-500">Optional reference for composition</p>
+                      <p className="font-semibold text-white">Upload a thumbnail to copy the style</p>
+                      <p className="text-sm text-purple-100/75">Optional reference for composition</p>
                     </div>
                     {referencePreview && (
-                      <div className="w-full overflow-hidden rounded-lg border border-blue-200">
+                      <div className="w-full overflow-hidden rounded-xl border border-white/20">
                         <img src={referencePreview} alt="Reference preview" className="h-32 w-full object-cover" />
                       </div>
                     )}
@@ -531,9 +571,8 @@ export default function ThumbnailGenerator() {
                 </div>
               </div>
 
-              <p className="text-sm text-gray-500">
-                We automatically combine your prompt, style choice, and uploads with smart AI instructions so every
-                generation follows YouTube best practices.
+              <p className="text-sm text-purple-100/75">
+                We automatically merge your prompt, chosen style, and uploaded context with pro-grade AI instructions so every render follows YouTube best practices.
               </p>
 
               <div className="flex flex-col gap-3 sm:flex-row">
@@ -541,7 +580,7 @@ export default function ThumbnailGenerator() {
                   onClick={() => runGeneration(false)}
                   disabled={isGenerating || !userPrompt.trim()}
                   size="lg"
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                  className="flex-1 rounded-xl bg-gradient-to-r from-purple-500 via-purple-400 to-purple-600 text-white shadow-lg shadow-purple-900/40 transition hover:shadow-xl"
                 >
                   {isGenerating ? (
                     <>
@@ -560,7 +599,7 @@ export default function ThumbnailGenerator() {
                   disabled={isGenerating || thumbnails.length === 0}
                   variant="outline"
                   size="lg"
-                  className="flex-1 border-purple-200 text-purple-700 hover:bg-purple-50 hover:text-purple-800"
+                  className="flex-1 rounded-xl border border-white/25 bg-white/5 text-white transition hover:bg-white/10"
                 >
                   {isGenerating ? (
                     <>
@@ -574,24 +613,25 @@ export default function ThumbnailGenerator() {
               </div>
             </CardContent>
           </Card>
-          <Card className="h-full backdrop-blur">
+
+          <Card className="border border-white/15 bg-white/10 text-white shadow-2xl shadow-purple-900/30 backdrop-blur">
             <CardHeader>
-              <CardTitle>Results</CardTitle>
+              <CardTitle className="text-white">Results</CardTitle>
             </CardHeader>
             <CardContent>
               {isGenerating && (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <Loader2 className="mb-4 h-12 w-12 animate-spin text-purple-600" />
-                  <p className="text-gray-600">Creating your perfect thumbnail...</p>
-                  <p className="mt-2 text-sm text-gray-500">This usually takes 10-20 seconds.</p>
+                  <Loader2 className="mb-4 h-12 w-12 animate-spin text-purple-200" />
+                  <p className="text-purple-100/80">Crafting your perfect thumbnail...</p>
+                  <p className="mt-2 text-sm text-purple-100/60">This usually takes 10-20 seconds.</p>
                 </div>
               )}
 
               {!isGenerating && thumbnails.length === 0 && (
-                <div className="py-12 text-center text-gray-500">
-                  <Wand2 className="mx-auto mb-4 h-12 w-12 text-gray-300" />
+                <div className="py-12 text-center text-purple-100/70">
+                  <Wand2 className="mx-auto mb-4 h-12 w-12 text-purple-200" />
                   <p>Your generated thumbnails will appear here.</p>
-                  <p className="mt-1 text-sm">Stay tuned—your next viral video needs a standout cover.</p>
+                  <p className="mt-1 text-sm">Dial in your prompt and click generate to get started.</p>
                 </div>
               )}
 
@@ -599,17 +639,17 @@ export default function ThumbnailGenerator() {
                 <div className="space-y-6">
                   {thumbnails.map((thumbnail, index) => (
                     <div key={thumbnail.id} className="space-y-3">
-                      <div className="group relative aspect-video overflow-hidden rounded-xl border-2 border-gray-200">
+                      <div className="group relative aspect-video overflow-hidden rounded-2xl border border-white/15">
                         <Image
                           src={thumbnail.url || "/placeholder.svg"}
                           alt="Generated thumbnail"
                           fill
                           className="object-cover"
                         />
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/30">
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/40">
                           <Button
                             onClick={() => downloadThumbnail(thumbnail.url, "youtube-thumbnail-" + (index + 1) + ".jpg")}
-                            className="opacity-0 transition-opacity group-hover:opacity-100"
+                            className="rounded-xl bg-white/90 text-gray-900 opacity-0 transition-opacity group-hover:opacity-100"
                             size="lg"
                           >
                             <Download className="mr-2 h-4 w-4" />
@@ -620,7 +660,7 @@ export default function ThumbnailGenerator() {
                       <Button
                         onClick={() => downloadThumbnail(thumbnail.url, "youtube-thumbnail-" + (index + 1) + ".jpg")}
                         variant="outline"
-                        className="w-full border-purple-200 text-purple-700 hover:bg-purple-50"
+                        className="w-full rounded-xl border border-white/20 bg-white/10 text-white transition hover:bg-white/20"
                       >
                         <Download className="mr-2 h-4 w-4" />
                         Save Thumbnail {thumbnails.length > 1 ? index + 1 : ""}
@@ -629,8 +669,8 @@ export default function ThumbnailGenerator() {
                   ))}
 
                   {lastPromptSummary && (
-                    <div className="rounded-lg bg-white/70 p-4 text-sm text-gray-600">
-                      <p className="font-semibold text-gray-800">Prompt sent to AI</p>
+                    <div className="rounded-2xl border border-white/15 bg-white/10 p-4 text-sm text-purple-100/80">
+                      <p className="font-semibold text-white">Prompt sent to AI</p>
                       <p className="mt-2 leading-relaxed">{lastPromptSummary}</p>
                     </div>
                   )}
