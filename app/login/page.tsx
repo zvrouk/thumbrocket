@@ -95,10 +95,10 @@ export default function LoginPage() {
 
               <div className="space-y-6">
                 <h1 className="text-4xl font-semibold leading-tight text-white sm:text-5xl">
-                  Elevate every thumbnail with a workflow built for creative momentum.
+                  AI YouTube Thumbnail Generator - Boost Your CTR
                 </h1>
                 <p className="max-w-xl text-lg text-purple-100/85">
-                  Log in to orchestrate AI-assisted thumbnail designs, collaborate with your team, and push updates live without breaking stride.
+                  Create high-converting, professional YouTube thumbnails in seconds with artificial intelligence. Perfect for creators, marketers, and businesses.
                 </p>
               </div>
 
@@ -115,17 +115,51 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <div className="mt-12 grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
-              <span className="text-xs uppercase tracking-[0.25em] text-purple-100/75">Creators rely on Thumbrocket</span>
-              <div className="grid gap-4 sm:grid-cols-3">
-                {spotlightStats.map((stat) => (
-                  <div key={stat.value} className="rounded-2xl bg-white/5 p-4 text-white shadow-inner shadow-purple-900/40">
-                    <div className="text-lg font-semibold">{stat.value}</div>
-                    <p className="mt-1 text-xs text-purple-100/80">{stat.description}</p>
+            <div className="mt-12 space-y-6">
+              <div className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur">
+                <h2 className="text-2xl font-semibold text-white">How ThumbRocket Works</h2>
+                <div className="grid gap-4 sm:grid-cols-3">
+                  <div className="space-y-2 rounded-2xl border border-white/15 bg-white/5 p-4">
+                    <h3 className="flex items-center gap-2 text-lg font-semibold text-white">
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-sm font-bold text-white">1</span>
+                      Describe Your Video
+                    </h3>
+                    <p className="text-sm text-purple-100/80">
+                      Share your title, target audience, and big idea so the AI understands the hook.
+                    </p>
                   </div>
-                ))}
+                  <div className="space-y-2 rounded-2xl border border-white/15 bg-white/5 p-4">
+                    <h3 className="flex items-center gap-2 text-lg font-semibold text-white">
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-sm font-bold text-white">2</span>
+                      Choose Your Style
+                    </h3>
+                    <p className="text-sm text-purple-100/80">
+                      Tap one of the signature presets—from Viral Clickbait to Cinematic—to guide the composition.
+                    </p>
+                  </div>
+                  <div className="space-y-2 rounded-2xl border border-white/15 bg-white/5 p-4">
+                    <h3 className="flex items-center gap-2 text-lg font-semibold text-white">
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-sm font-bold text-white">3</span>
+                      Generate Perfect Thumbnails
+                    </h3>
+                    <p className="text-sm text-purple-100/80">
+                      Produce polished, click-ready thumbnails in seconds and download your favorite instantly.
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
+
+              <div className="grid gap-4 rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+                <span className="text-xs uppercase tracking-[0.25em] text-purple-100/75">Creators rely on Thumbrocket</span>
+                <div className="grid gap-4 sm:grid-cols-3">
+                  {spotlightStats.map((stat) => (
+                    <div key={stat.value} className="rounded-2xl bg-white/5 p-4 text-white shadow-inner shadow-purple-900/40">
+                      <div className="text-lg font-semibold">{stat.value}</div>
+                      <p className="mt-1 text-xs text-purple-100/80">{stat.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
           </div>
 
           <Card className="relative overflow-hidden border border-white/15 bg-white/95 text-gray-900 shadow-2xl shadow-purple-900/40">

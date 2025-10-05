@@ -309,12 +309,9 @@ export default function ThumbnailGenerator() {
           </div>
           <div className="space-y-4">
             <h1 className="text-4xl font-semibold leading-tight text-white sm:text-5xl">
-              AI YouTube Thumbnail Generator - Boost Your CTR
+              Design impact thumbnails with a workspace that matches the rest of Thumbrocket.
             </h1>
             <p className="mx-auto max-w-3xl text-lg text-purple-100/85 lg:mx-0">
-              Create high-converting, professional YouTube thumbnails in seconds with artificial intelligence. Perfect for creators, marketers, and businesses.
-            </p>
-            <p className="mx-auto max-w-3xl text-base text-purple-100/80 lg:mx-0">
               Feed the AI a single vision, tap a signature style, and generate scroll-stopping covers in seconds. The new layout mirrors the premium vibe from login and pricing so your creative flow feels seamless end-to-end.
             </p>
           </div>
@@ -331,39 +328,6 @@ export default function ThumbnailGenerator() {
               <Download className="h-4 w-4 text-purple-200" />
               Instant downloads & variations
             </span>
-          </div>
-
-          <div className="mt-6 space-y-4 text-left">
-            <h2 className="text-2xl font-semibold text-white">How ThumbRocket Works</h2>
-            <div className="grid gap-4 rounded-2xl border border-white/15 bg-white/10 p-6 text-purple-100/85 backdrop-blur sm:grid-cols-3">
-              <div className="space-y-2">
-                <h3 className="flex items-center gap-2 text-lg font-semibold text-white">
-                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-sm font-bold text-white">1</span>
-                  Describe Your Video
-                </h3>
-                <p className="text-sm text-purple-100/75">
-                  Share your title, target audience, and big idea so the AI understands the hook.
-                </p>
-              </div>
-              <div className="space-y-2">
-                <h3 className="flex items-center gap-2 text-lg font-semibold text-white">
-                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-sm font-bold text-white">2</span>
-                  Choose Your Style
-                </h3>
-                <p className="text-sm text-purple-100/75">
-                  Tap one of the signature presets—from Viral Clickbait to Cinematic—to guide the composition.
-                </p>
-              </div>
-              <div className="space-y-2">
-                <h3 className="flex items-center gap-2 text-lg font-semibold text-white">
-                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-sm font-bold text-white">3</span>
-                  Generate Perfect Thumbnails
-                </h3>
-                <p className="text-sm text-purple-100/75">
-                  Produce polished, click-ready thumbnails in seconds and download your favorite instantly.
-                </p>
-              </div>
-            </div>
           </div>
         </header>
 
