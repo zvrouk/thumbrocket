@@ -82,7 +82,6 @@ export default function LoginPage() {
                   Create high-converting, professional YouTube thumbnails in seconds with artificial intelligence. Perfect for creators, marketers, and businesses.
                 </p>
               </div>
-              </div>
             </div>
 
             <div className="mt-12 space-y-6">
