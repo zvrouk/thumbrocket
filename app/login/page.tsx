@@ -8,25 +8,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { supabase } from "@/lib/supabaseClient"
 
-const featureHighlights = [
-  {
-    title: "Guided storyboards",
-    description: "Start every project with smart prompts that keep your thumbnails on brand.",
-  },
-  {
-    title: "Instant variations",
-    description: "Regenerate new looks in one click and fine-tune with simple controls.",
-  },
-  {
-    title: "Team-friendly",
-    description: "Invite collaborators, sync comments, and ship assets without friction.",
-  },
-  {
-    title: "Analytics-ready",
-    description: "See which styles drive clicks so you can double down on what works.",
-  },
-]
-
 const spotlightStats = [
   { value: "10x faster", description: "workflow for busy creators" },
   { value: "30+ presets", description: "crafted for every niche" },
@@ -101,17 +82,6 @@ export default function LoginPage() {
                   Create high-converting, professional YouTube thumbnails in seconds with artificial intelligence. Perfect for creators, marketers, and businesses.
                 </p>
               </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                {featureHighlights.map((feature) => (
-                  <div
-                    key={feature.title}
-                    className="group rounded-3xl border border-white/15 bg-white/5 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-white/30 hover:bg-white/10 hover:shadow-xl hover:shadow-purple-900/40"
-                  >
-                    <h3 className="text-base font-semibold text-white">{feature.title}</h3>
-                    <p className="mt-2 text-sm leading-5 text-purple-100/85">{feature.description}</p>
-                  </div>
-                ))}
               </div>
             </div>
 
@@ -157,7 +127,6 @@ export default function LoginPage() {
                       <div className="text-lg font-semibold">{stat.value}</div>
                       <p className="mt-1 text-xs text-purple-100/80">{stat.description}</p>
                     </div>
-                  ))}
                 </div>
               </div>
             </div>
@@ -313,3 +282,6 @@ export default function LoginPage() {
     </div>
   )
 }
+
+
+
