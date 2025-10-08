@@ -30,6 +30,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://thumbrocket.xyz",
   },
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: ["/icon.svg"],
+    apple: [
+      { url: "/icon.svg" },
+    ],
+    other: [
+      { rel: "mask-icon", url: "/safari-pinned-tab.svg", color: "#6235ff" },
+    ],
+  },
 }
 
 export default function RootLayout({
@@ -55,6 +67,10 @@ export default function RootLayout({
         <meta property="og:url" content="https://thumbrocket.xyz" />
         <meta name="twitter:card" content="summary_large_image" />
         <link rel="canonical" href="https://thumbrocket.xyz" />
+        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+        <link rel="shortcut icon" href="/icon.svg" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#6235ff" />
+        <meta name="theme-color" content="#060b12" />
       </head>
       <body className={inter.className}>
         <Suspense fallback={<div>Loading...</div>}>
@@ -65,3 +81,6 @@ export default function RootLayout({
     </html>
   )
 }
+
+
+
