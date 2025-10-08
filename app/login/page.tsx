@@ -126,6 +126,7 @@ export default function LoginPage() {
                       <div className="text-lg font-semibold">{stat.value}</div>
                       <p className="mt-1 text-xs text-purple-100/80">{stat.description}</p>
                     </div>
+                  ))}
                 </div>
               </div>
             </div>
